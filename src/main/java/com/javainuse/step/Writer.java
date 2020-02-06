@@ -84,10 +84,14 @@ public class Writer implements ItemWriter<DataObject> {
             throw new RuntimeException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
         }
         return result.toString();
+   }
+
+   @Override
+    public void write(List<? extends DataObject> messages) {
+        System.out.println(messages);
     }
 
-    @Override
-    public void write(List<? extends DataObject> messages) {
+    public void write1(List<? extends DataObject> messages) {
         int count = 0;
         int retry = 3;
         for (DataObject msg : messages) {
