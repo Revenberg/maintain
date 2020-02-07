@@ -1,4 +1,4 @@
-package com.maintain.step;
+package info.revenberg.maintain.step;
 
 import java.net.URLEncoder;
 

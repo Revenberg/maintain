@@ -1,4 +1,4 @@
-package com.maintain.objects;
+package info.revenberg.maintain.objects;
 
 public class DataObject1 {
     private String filename;

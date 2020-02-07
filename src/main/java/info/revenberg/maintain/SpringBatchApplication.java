@@ -1,4 +1,4 @@
-package com.maintain;
+package info.revenberg.maintain;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.ApplicationArguments;

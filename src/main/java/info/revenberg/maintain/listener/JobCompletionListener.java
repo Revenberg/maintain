@@ -1,4 +1,4 @@
-package com.maintain.listener;
+package info.revenberg.maintain.listener;
 
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;

@@ -1,4 +1,4 @@
-package com.maintain.step;
+package info.revenberg.maintain.step;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,22 +54,26 @@ public class Reader implements ItemReader<String> {
         // add request headers
         request.addHeader("Accept", "application/json");
 
+        HttpEntity entity = null;
+
         try (CloseableHttpResponse response = httpClient.execute(request)) {
 
             // Get HttpResponse Status
             System.out.println(response.getStatusLine().toString());
 
-            HttpEntity entity = response.getEntity();
+            entity = response.getEntity();
             Header headers = entity.getContentType();
-            System.out.println(headers);
+            System.out.println(headers);            
 
-            if (entity != null) {
-                String result = EntityUtils.toString(entity);
-                System.out.println(result);
-                return result;
-            }
-
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        return null;
+        if (entity != null) {
+            String result = EntityUtils.toString(entity);
+            System.out.println(result);
+            return result;
+        } else {
+            return "";
+        }
     }
 }

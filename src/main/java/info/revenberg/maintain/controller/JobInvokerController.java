@@ -1,4 +1,4 @@
-package com.maintain.controller;
+package info.revenberg.maintain.controller;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;

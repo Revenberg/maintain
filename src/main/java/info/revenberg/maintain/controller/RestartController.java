@@ -1,6 +1,6 @@
-package com.maintain.controller;
+package info.revenberg.maintain.controller;
 
-import com.maintain.SpringBatchApplication;
+import info.revenberg.maintain.SpringBatchApplication;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

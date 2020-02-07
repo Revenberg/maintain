@@ -1,4 +1,4 @@
-package com.maintain.config;
+package info.revenberg.maintain.config;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
@@ -13,10 +13,10 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.maintain.listener.JobCompletionListener;
-import com.maintain.step.Processor;
-import com.maintain.step.Reader;
-import com.maintain.step.Writer;
+import info.revenberg.maintain.listener.JobCompletionListener;
+import info.revenberg.maintain.step.Processor;
+import info.revenberg.maintain.step.Reader;
+import info.revenberg.maintain.step.Writer;
 
 @Configuration
 @EnableScheduling
