@@ -1,6 +1,6 @@
-package com.javainuse.controller;
+package com.maintain.controller;
 
-import com.javainuse.SpringBatchApplication;
+import com.maintain.SpringBatchApplication;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

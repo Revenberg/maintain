@@ -1,4 +1,4 @@
-package com.javainuse.step;
+package com.maintain.step;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,15 +22,13 @@ import org.apache.http.message.BasicHeaderElementIterator;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 
-import com.javainuse.objects.DataObject;
-
 import org.springframework.batch.item.ItemWriter;
 
-public class Writer implements ItemWriter<DataObject> {
+public class Writer implements ItemWriter<String> {
     private static int counter = 0;
 
+/*
     public String uploadFile(String postEndpoint, String filename) throws IOException {
-
         File testUploadFile = new File(filename);
 
         ConnectionKeepAliveStrategy myStrategy = new ConnectionKeepAliveStrategy() {
@@ -85,16 +83,16 @@ public class Writer implements ItemWriter<DataObject> {
         }
         return result.toString();
    }
-
+*/
    @Override
-    public void write(List<? extends DataObject> messages) {
+    public void write(List<? extends String> messages) {
         System.out.println(messages);
     }
-
-    public void write1(List<? extends DataObject> messages) {
+/*
+    public void write1(List<? extends String> messages) {
         int count = 0;
         int retry = 3;
-        for (DataObject msg : messages) {
+        for (String msg : messages) {
             if (msg != null) {
                 if (msg.getFilename() != "") {
                     counter++;
@@ -118,5 +116,5 @@ public class Writer implements ItemWriter<DataObject> {
             }
         }
     }
-
+*/
 }

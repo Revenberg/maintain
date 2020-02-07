@@ -1,4 +1,4 @@
-package com.javainuse.config;
+package com.maintain.config;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
@@ -13,11 +13,10 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.javainuse.listener.JobCompletionListener;
-import com.javainuse.objects.DataObject;
-import com.javainuse.step.Processor;
-import com.javainuse.step.Reader;
-import com.javainuse.step.Writer;
+import com.maintain.listener.JobCompletionListener;
+import com.maintain.step.Processor;
+import com.maintain.step.Reader;
+import com.maintain.step.Writer;
 
 @Configuration
 @EnableScheduling
@@ -47,7 +46,7 @@ public class BatchConfig {
 	@Bean
 	public Step step1() {
 		return stepBuilderFactory.get("step1")
-		        .<DataObject, DataObject> chunk(10)
+		        .<String, String> chunk(10)
 				.reader(new Reader())
 				.processor(new Processor())
 				.writer(new Writer())

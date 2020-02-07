@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.javainuse</groupId>
-	<artifactId>springboot-batch</artifactId>
+	<groupId>com.maintain</groupId>
+	<artifactId>maintain</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>SpringBatch</name>
-	<description>Spring Batch-Spring Boot</description>
+	<name>maintain</name>
+	<description>Spring Batch-Spring maintain</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -17,7 +17,7 @@
 	</parent>
 
 	<properties>
-		<start-class>info.revenberg.song.Application</start-class>					
+		<start-class>info.revenberg.maintain.Application</start-class>					
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Greenwich.SR3</spring-cloud.version>	
 	</properties>

@@ -1,10 +1,8 @@
-package com.javainuse.step;
+package com.maintain.step;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.javainuse.objects.DataObject;
 
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
@@ -28,34 +26,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reader implements ItemReader<DataObject> {
+public class Reader implements ItemReader<String> {
     // one instance, reuse
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
-	private static long counter = 0;
-	@Override
-	public DataObject read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-        HttpClientExample obj = new HttpClientExample();
-        if (list.isEmpty()) {
-                try {
-                obj.sendGet();
-            } finally {
-                obj.close();
-            }
+    private static long counter = 0;
+
+    @Override
+    public String read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+        String rc = "";
+        try {
+            rc = this.sendGet();
+        } finally {
+            this.close();
         }
+        return rc;
+    }
 
-        if (!list.isEmpty()) {
-		   String element = list.get(0);
-		   list.remove(0);			
-		   return new DataObject(element);
-	   } 
-	   return null;
-   }
-
-private void close() throws IOException {
+    private void close() throws IOException {
         httpClient.close();
     }
 
-    private void sendGet() throws Exception {
+    private String sendGet() throws Exception {
 
         Reader.counter++;
         HttpGet request = new HttpGet("http://40.122.30.210:8090/rest/v1/vers?page=" + Reader.counter + "&size=1");
@@ -75,8 +66,10 @@ private void close() throws IOException {
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
                 System.out.println(result);
+                return result;
             }
 
         }
+        return null;
     }
 }
