@@ -1,38 +1,61 @@
 package info.revenberg.maintain.step;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 
 import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.apache.http.HeaderElementIterator;
+import org.apache.http.HttpResponse;
+import org.apache.http.message.BasicHeaderElementIterator;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.HttpContext;
 
 public class Reader implements ItemReader<String> {
     // one instance, reuse
-    private final CloseableHttpClient httpClient = HttpClients.createDefault();
+    private CloseableHttpClient httpClient = null;
     private static long counter = 0;
 
     @Override
     public String read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+        if (httpClient == null) {
+            ConnectionKeepAliveStrategy myStrategy = new ConnectionKeepAliveStrategy() {
+                public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+                    // Honor 'keep-alive' header
+                    HeaderElementIterator it = new BasicHeaderElementIterator(
+                            response.headerIterator(HTTP.CONN_KEEP_ALIVE));
+                    while (it.hasNext()) {
+                        HeaderElement he = it.nextElement();
+                        String param = he.getName();
+                        String value = he.getValue();
+                        if (value != null && param.equalsIgnoreCase("timeout")) {
+                            try {
+                                return Long.parseLong(value) * 1000;
+                            } catch (NumberFormatException ignore) {
+                            }
+                        }
+                    }
+                    // keep alive for 30 seconds
+                    return 30 * 1000;
+                }
+
+            };
+
+            this.httpClient = HttpClients.custom().setConnectionManagerShared(true).setKeepAliveStrategy(myStrategy)
+                    .build();
+        }
         String rc = "";
         try {
             rc = this.sendGet();
@@ -54,26 +77,18 @@ public class Reader implements ItemReader<String> {
         // add request headers
         request.addHeader("Accept", "application/json");
 
-        HttpEntity entity = null;
-
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-
+        CloseableHttpResponse response = httpClient.execute(request);
+        try {
             // Get HttpResponse Status
-            System.out.println(response.getStatusLine().toString());
-
-            entity = response.getEntity();
-            Header headers = entity.getContentType();
-            System.out.println(headers);            
-
-        } catch (Exception e) {
-            System.out.println(e);
+            HttpEntity entity = response.getEntity();
+            
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                return result;
+            }
+        } finally {
+            response.close();
         }
-        if (entity != null) {
-            String result = EntityUtils.toString(entity);
-            System.out.println(result);
-            return result;
-        } else {
-            return "";
-        }
+        return "error";
     }
 }
